@@ -1,40 +1,41 @@
 package com.example.config;
 
+import com.example.beans.Person;
 import com.example.beans.Vehicle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
 
 /**
- * This class is marked as a configuration class, meaning it contains
- * @Bean definitions that will be processed by the Spring container
- * to generate and manage Spring beans.
- */
-
+Spring @Configuration annotation is part of the spring core framework.
+Spring Configuration annotation indicates that the class has @Bean definition
+methods. So Spring container can process the class and generate Spring Beans
+to be used in the application.
+* */
 @Configuration
 public class ProjectConfig {
 
+    @Bean
+    public Vehicle vehicle() {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setName("Toyota");
+        return vehicle;
+    }
+
     /**
-     * This method defines a bean that will be managed by the Spring container.
-     * The @Bean annotation indicates that this method will return an object
-     * that should be registered as a bean in the Spring application context.
-     *
-     * @return an instance of [YourBeanClass]
-     */
+    Here in the below code, we are trying to wire or establish a relationship between Person and
+    Vehicle, by invoking the vehicle() bean method from person() bean method.
 
+    Spring will make sure to have only 1 vehicle bean is created and also vehicle bean will
+    be created first always as person bean has dependency on it.
+    * */
     @Bean
-    Vehicle vehicle(){
-        var veh = new Vehicle();
-        veh.setName("Audi 8");
-        return veh;
+    public Person person() {
+        Person person = new Person();
+        person.setName("Lucy");
+        person.setVehicle(vehicle());
+        return person;
     }
 
-    @Bean
-    String hello(){
-        return "Hello World";
-    }
-
-    @Bean
-    Integer number(){
-        return 16;
-    }
 }
